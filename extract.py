@@ -13,7 +13,7 @@ def resize_to_power_of_2(image):
     new_height = nearest_power_of_2(height)
     return image.resize((new_width, new_height), Image.BICUBIC)
 
-def slice_image(input_file, output_file, left, right, top, bottom, resize=False, compress_level=9):
+def slice_image(input_file, output_file, left, right, top, bottom, resize=False, compress_level=9, silent=False):
     """
     Slices an image based on normalized coordinates and optionally resizes it.
 
@@ -26,23 +26,28 @@ def slice_image(input_file, output_file, left, right, top, bottom, resize=False,
         bottom (float): Normalized bottom coordinate (0-1).
         resize (bool): Whether to resize the output to the nearest power of 2.
         compress_level (int): Compression level for saving PNG files (0-9).
+        silent (bool): Whether to silence the output.
     """
     # Open the image
     with Image.open(input_file) as img:
-        print(f"Original image mode: {img.mode}, size: {img.size}")
+        if not silent:
+            print(f"Original image mode: {img.mode}, size: {img.size}")
 
         # Check for multiple frames (mipmap layers) in the BLP file
         try:
             if hasattr(img, "n_frames") and img.n_frames > 1:
-                print(f"Image has {img.n_frames} frames (mipmap layers). Selecting the highest resolution layer.")
+                if not silent:
+                    print(f"Image has {img.n_frames} frames (mipmap layers). Selecting the highest resolution layer.")
                 img.seek(0)  # Go to the first (highest resolution) frame
         except EOFError:
-            print("No additional frames found; using the default frame.")
+            if not silent:
+                print("No additional frames found; using the default frame.")
 
         # Ensure the image is in RGBA mode
         if img.mode != "RGBA":
             img = img.convert("RGBA")
-            print(f"Converted image mode to: {img.mode}")
+            if not silent:
+                print(f"Converted image mode to: {img.mode}")
         
         width, height = img.size
 
@@ -61,14 +66,16 @@ def slice_image(input_file, output_file, left, right, top, bottom, resize=False,
         
         # Save the output image
         if output_file.endswith(".blp"):
-            print("Saving as BLP format... (badly supported)")
+            if not silent:
+                print("Saving as BLP format... (badly supported)")
             cropped_img = cropped_img.convert("P")
             cropped_img.save(output_file, blp_version="BLP2")
         else:
             # Save as PNG with compression level
             cropped_img.save(output_file, format="PNG", compress_level=compress_level)
         
-        print(f"Output image saved to {output_file}")
+        if not silent:
+            print(f"Output image saved to {output_file}")
 
 def main():
     parser = argparse.ArgumentParser(description="Slice an image and optionally resize to nearest power of 2.")
@@ -80,9 +87,10 @@ def main():
     parser.add_argument("bottom", type=float, help="Normalized bottom coordinate (0-1).")
     parser.add_argument("--resize", action="store_true", help="Resize the output image to the nearest power of 2.")
     parser.add_argument("--compress-level", type=int, default=9, help="Compression level for saving PNG files (0-9).")
+    parser.add_argument("--silent", action="store_true", help="Silence the output.")
 
     args = parser.parse_args()
-    slice_image(args.input_file, args.output_file, args.left, args.right, args.top, args.bottom, args.resize, args.compress_level)
+    slice_image(args.input_file, args.output_file, args.left, args.right, args.top, args.bottom, args.resize, args.compress_level, args.silent)
 
 if __name__ == "__main__":
     main()

@@ -18,6 +18,7 @@ WoWAtlasExtract is a Python script that extracts assets from Blizzard's World of
 - `lupa` library
 - `Pillow` library
 - `python-dotenv` library
+- `tqdm` library
 - [exported art files](https://warcraft.wiki.gg/wiki/Viewing_Blizzard%27s_interface_code)
 - [TextureAtlasViewer](https://www.curseforge.com/wow/addons/textureatlasviewer) (optional addon)
 
@@ -50,7 +51,7 @@ WOW_ART_FILES_PATH=/mnt/c/Program Files/World of Warcraft/_retail_/BlizzardInter
 ATLAS_INFO_GET_URL=https://www.townlong-yak.com/framexml/live/Helix/AtlasInfo.lua/get
 ```
 
-## Usage
+## Usage: `atlas.py`
 
 ```sh
 python3 atlas.py <atlas_name> [output_file] [--info <path_to_lua_file>] [--download] [--resize] [--path <path_to_art_files>] [--same-dir]
@@ -76,6 +77,32 @@ python3 atlas.py UI-Achievement-Alert-Background-Mini
 ```
 
 This command will extract the `UI-Achievement-Alert-Background-Mini` atlas from the specified path and save it as `UI-Achievement-Alert-Background-Mini.png` in the current directory.
+
+## Usage: `deconstruct.py`
+
+```sh
+python3 deconstruct.py <atlas_name|atlas_file> [output_dir] [--info <path_to_lua_file>] [--download] [--path <path_to_art_files>]
+```
+
+### Arguments
+
+- `atlas_name|atlas_file`: Atlas name to look up in the Lua table or path to the atlas file.
+- `output_dir` (optional): Directory to save the output images. If not provided, the atlas name will be used as the output directory in `./output`.
+
+### Options
+
+- `--info`: Path to the Lua file containing the atlas info. If not provided, it will be downloaded and cached.
+- `--download`: Force redownload of the AtlasInfo.lua file.
+- `--path`: Directory where the [exported art files](https://warcraft.wiki.gg/wiki/Viewing_Blizzard%27s_interface_code) are located. Defaults to the value set in the .env file (usually `/mnt/c/Program Files/World of Warcraft/_retail_/BlizzardInterfaceArt` if you're running in WSL with default installation path).
+
+### Example
+
+```sh
+python3 deconstruct.py glues-gameMode-BG
+python3 deconstruct.py Interface/Glues/CharacterSelect/UICharacterSelectGlues2x
+```
+
+Both of these commands will extract all individual textures from `Interface/Glues/CharacterSelect/UICharacterSelectGlues2x` into `./output/UICharacterSelectGlues2x`. The script will create a subdirectory for each atlas and save the extracted textures there.
 
 ## License
 
