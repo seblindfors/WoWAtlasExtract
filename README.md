@@ -70,7 +70,7 @@ python3 atlas.py <atlas_name> [output_file] [--info <path_to_lua_file>] [--downl
 ### Example
 
 ```sh
-python3 atlas.py UI-Achievement-Alert-Background-Mini --path "/mnt/d/World of Warcraft/_retail_/BlizzardInterfaceArt"
+python3 atlas.py UI-Achievement-Alert-Background-Mini
 ```
 
 This command will extract the `UI-Achievement-Alert-Background-Mini` atlas from the specified path and save it as `UI-Achievement-Alert-Background-Mini.png` in the current directory.
