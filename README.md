@@ -64,7 +64,7 @@ python3 atlas.py <atlas_name> [output_file] [--info <path_to_lua_file>] [--downl
 - `--info`: Path to the Lua file containing the atlas info. If not provided, it will be downloaded and cached.
 - `--download`: Force redownload of the AtlasInfo.lua file.
 - `--resize`: Resize the output image to the nearest power of 2. This may no longer be necessary.
-- `--path`: Directory where the exported art files are located (usually `/mnt/c/Program Files/World of Warcraft/BlizzardInterfaceArt` if you're running in WSL). Defaults to the value set in the .env file.
+- `--path`: Directory where the [exported art files](https://warcraft.wiki.gg/wiki/Viewing_Blizzard%27s_interface_code) are located. Defaults to the value set in the .env file (usually `/mnt/c/Program Files/World of Warcraft/_retail_/BlizzardInterfaceArt` if you're running in WSL with default installation path).
 - `--same-dir`: Export the output file to the same directory where the input file came from.
 
 ### Example
