@@ -45,16 +45,21 @@ class Helper:
             if atlas_name in full_atlas_info:
                 return file, full_atlas_info[atlas_name]
         return None, None
+    
+    def find_atlas_by_file_name(self, file_name):
+        for file, full_atlas_info in self.lua_table.items():
+            if file_name in file:
+                return full_atlas_info
+        return None
 
     def find_file_by_name(self, file_name):
-        print(f"Looking for file: {file_name}")
         for file in self.lua_table.keys():
             if file_name in file:
-                return self.lua_table[file]
+                return file
         return None
 
     def find_file_by_atlas_name(self, atlas_name):
         for file, full_atlas_info in self.lua_table.items():
-            if atlas_name in file:
+            if atlas_name in full_atlas_info:
                 return file
         return None

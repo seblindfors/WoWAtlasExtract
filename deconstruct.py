@@ -46,25 +46,21 @@ def main():
 
     helper = Helper(lua_file=args.info, download=args.download)
 
-    if os.path.isfile(args.identifier):
-        file = os.path.relpath(args.identifier, args.path)
-        print(f"Looking for file: {file}")
-        atlas_info = helper.find_file_by_name(file)
+    print(f"Looking for atlas: {args.identifier}")
+    file = helper.find_file_by_atlas_name(args.identifier)
+    if not file:
+        print(f"Atlas name {args.identifier} not found. Trying as file name.")
+        file = helper.find_file_by_name(args.identifier)
+    
+    if file:
+        print(f'Found atlas {args.identifier} in file {file}')
+        atlas_info = helper.find_atlas_by_file_name(file)
         if atlas_info:
             extract_all_parts(helper, file, atlas_info, args.output_dir, args.resize, args.compress_level)
         else:
-            print(f'File {args.identifier} not found in the Lua table')
+            print(f'File {file} not found in the Lua table')
     else:
-        file = helper.find_file_by_atlas_name(args.identifier)
-        if file:
-            print(f'Found atlas {args.identifier} in file {file}')
-            atlas_info = helper.find_file_by_name(file)
-            if atlas_info:
-                extract_all_parts(helper, file, atlas_info, args.output_dir, args.resize, args.compress_level)
-            else:
-                print(f'File {file} not found in the Lua table')
-        else:
-            print(f'Atlas name {args.identifier} not found in the Lua table')
+        print(f'Atlas name or file {args.identifier} not found in the Lua table')
 
 if __name__ == "__main__":
     main()
