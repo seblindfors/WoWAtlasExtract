@@ -1,11 +1,23 @@
 # Ignore virtual environments
 venv/
 
-# Ignore Python cache files
+# Python cache files
 __pycache__/
 *.pyc
 *.pyo
 
-# Ignore OS-specific files
+# Atlas cache files
+.cache/
+
+# Generated files
+*.png
+*.PNG
+*.blp
+*.BLP
+
+# OS-specific files
 .DS_Store
 Thumbs.db
+
+# Logs
+*.log
