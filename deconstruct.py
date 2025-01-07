@@ -9,14 +9,14 @@ def extract_all_parts(helper, file, atlas_info, output_dir, resize, compress_lev
     parent_file_name = os.path.splitext(os.path.basename(file))[0]
     output_subdir = os.path.join(output_dir, parent_file_name)
     os.makedirs(output_subdir, exist_ok=True)
-    
+
     # Print the number of assets and their names
     asset_names = list(atlas_info.keys())
     print(f"Number of assets to extract: {len(asset_names)}")
     print("Assets to extract:")
     for name in asset_names:
         print(f" - {name}")
-    
+
     # Use tqdm to display a progress bar
     with tqdm(total=len(asset_names), desc="Extracting parts", unit="part") as pbar:
         for part_name, coords in atlas_info.items():
@@ -31,6 +31,8 @@ def extract_all_parts(helper, file, atlas_info, output_dir, resize, compress_lev
             else:
                 pbar.set_postfix_str(f"Skipped {part_name}")
             pbar.update(1)
+
+    print(f"Parts extracted to: {output_subdir}")
 
 def main():
     parser = argparse.ArgumentParser(description="Deconstruct an asset from a BLP image using coordinates from a Lua table.")
@@ -51,7 +53,7 @@ def main():
     if not file:
         print(f"Atlas name {args.identifier} not found. Trying as file name.")
         file = helper.find_file_by_name(args.identifier)
-    
+
     if file:
         print(f'Found atlas {args.identifier} in file {file}')
         atlas_info = helper.find_atlas_by_file_name(file)
