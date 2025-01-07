@@ -1,6 +1,6 @@
 # WoWAtlasExtract
 
-WoWAtlasExtract is a Python script that extracts assets from Blizzard's World of Warcraft interface art files using coordinates from a Lua table. The script supports downloading the Lua table, parsing it, and extracting the specified asset from the BLP image.
+WoWAtlasExtract is a Python script that extracts assets from Blizzard's World of Warcraft interface art files using coordinates from a Lua table. The script downloads atlas info from townlong-yak.com, parses it, and extracts the specified asset from the BLP image. Use together with [TextureAtlasViewer](https://www.curseforge.com/wow/addons/textureatlasviewer), the in-game browser, to find the names of the atlases you want to extract.
 
 ## Features
 
@@ -18,6 +18,8 @@ WoWAtlasExtract is a Python script that extracts assets from Blizzard's World of
 - `lupa` library
 - `Pillow` library
 - `python-dotenv` library
+- [exported art files](https://warcraft.wiki.gg/wiki/Viewing_Blizzard%27s_interface_code)
+- [TextureAtlasViewer](https://www.curseforge.com/wow/addons/textureatlasviewer) (optional addon)
 
 ## Installation
 
