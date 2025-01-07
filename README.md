@@ -1,0 +1,84 @@
+# WoWAtlasExtract
+
+WoWAtlasExtract is a Python script that extracts assets from Blizzard's World of Warcraft interface art files using coordinates from a Lua table. The script supports downloading the Lua table, parsing it, and extracting the specified asset from the BLP image.
+
+## Features
+
+- Download and cache the Lua table containing atlas information.
+- Parse the Lua table to find the coordinates of the specified atlas.
+- Extract the asset from the BLP image using the coordinates.
+- Optionally resize the output image to the nearest power of 2.
+- Save the output image to a specified path or the same directory as the input file.
+- Use environment variables to set default paths.
+
+## Requirements
+
+- Python 3.8 or higher (probably)
+- `requests` library
+- `lupa` library
+- `Pillow` library
+- `python-dotenv` library
+
+## Installation
+
+1. Clone the repository:
+
+```sh
+git clone https://github.com/seblindfors/WoWAtlasExtract.git
+cd WoWAtlasExtract
+```
+
+2. Create a virtual environment and activate it:
+
+```sh
+python3 -m venv venv
+source venv/bin/activate
+```
+
+3. Install the required libraries:
+
+```sh
+pip install -r requirements.txt
+```
+
+4. Optionally create a .env file in the project directory with the following content (example for WSL):
+
+```plaintext
+WOW_ART_FILES_PATH=/mnt/c/Program Files/World of Warcraft/_retail_/BlizzardInterfaceArt
+ATLAS_INFO_GET_URL=https://www.townlong-yak.com/framexml/live/Helix/AtlasInfo.lua/get
+```
+
+## Usage
+
+```sh
+python3 atlas.py <atlas_name> [output_file] [--info <path_to_lua_file>] [--download] [--resize] [--path <path_to_art_files>] [--same-dir]
+```
+
+### Arguments
+
+- `atlas_name`: Atlas name to look up in the Lua table.
+- `output_file` (optional): Path to save the output image file. If not provided, the atlas name will be used with a `.png` extension in the current directory.
+
+### Options
+
+- `--info`: Path to the Lua file containing the atlas info. If not provided, it will be downloaded and cached.
+- `--download`: Force redownload of the AtlasInfo.lua file.
+- `--resize`: Resize the output image to the nearest power of 2. This may no longer be necessary.
+- `--path`: Directory where the exported art files are located (usually `/mnt/c/Program Files/World of Warcraft/BlizzardInterfaceArt` if you're running in WSL). Defaults to the value set in the .env file.
+- `--same-dir`: Export the output file to the same directory where the input file came from.
+
+### Example
+
+```sh
+python3 atlas.py UI-Achievement-Alert-Background-Mini --path "/mnt/d/World of Warcraft/_retail_/BlizzardInterfaceArt"
+```
+
+This command will extract the `UI-Achievement-Alert-Background-Mini` atlas from the specified path and save it as `UI-Achievement-Alert-Background-Mini.png` in the current directory.
+
+## License
+
+I don't care what you do with this.
+
+## Acknowledgements
+
+Thanks to Foxlit (Townlong-Yak) for the atlas info table, I hope this is OK?
